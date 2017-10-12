@@ -42,8 +42,7 @@ class Parser
 	// 'my-text-is-like-that' => ['my', 'text', 'is', 'like', 'that']
 	protected function tokenization()
 	{
-		$this->text = strtolower($this->text);
-		$this->tokens = explode('-', $this->text);
+		$this->tokens = explode('-', $this->text = strtolower($this->text));
 		return $this;
 	}
 
@@ -65,11 +64,12 @@ class Parser
 	// CLEAN the array from STOPWORDS
 	protected function cleanStopWords()
 	{
-		foreach($this->tokens as $key => $value)
-		{
-		if(!in_array($key, $this->stopWords) && $value>= $this->minFrequency)
-			$this->tags[$key] = $value;
-		}
+		array_walk($this->tokens, function($value, $key){
+			if(!in_array($key, $this->stopWords) && $value>= $this->minFrequency)
+				$this->tags[$key] = $value;
+
+		}, array_keys($this->tokens));
+
 		$this->total = array_sum($this->tags);
 		return $this->tags;
 	}
