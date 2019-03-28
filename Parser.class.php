@@ -86,10 +86,4 @@ class Parser
 		$this->stopWords = $stopWords;
 	}
 
-
-	// set the TEXT
-	public function setText($text)
-	{
-		$this->text = $text;
-	}
 }
